@@ -1,0 +1,118 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
+        <logo>
+            <a href="#" class="navbar-brand">NYO</a>
+        </logo>
+        <links>
+            <div class="d-flex justify-content-end">
+            <ul class="navbar-nav d-flex justify-content-end">
+                <select class="form-control" (click)="onDeviceSelectChange($event.target.value)" style="display: block !important;">
+                    <option value="" [selected]="!currentevice">Camara No Seleccionada</option>
+                    <option *ngFor="let device of availableDevices" [selected]="!currentevice" selected [value]="device.deviceId" [selected]="currentDevice && device.deviceId === currentDevice.deviceId">{{ device.label }}</option>
+                </select>
+            </ul>
+        </div>
+        </links>
+</mdb-navbar>
+
+<main class="text-center py-5" style="padding-top: 4rem !important;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+
+                
+
+
+                <div class="scanner-shell" [hidden]="!hasDevices">
+
+                        
+                
+                    <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
+                
+                    <!--<footer>
+                        <span>Result:</span>
+                        <span>
+                            <em *ngIf="!qrResultString">wating for scan...</em>
+                            <strong>{{ qrResultString }}</strong>
+                        </span>
+                    </footer>-->
+                
+                </div>
+                
+                <ng-container *ngIf="hasPermission === undefined">
+                
+                    <h2>Waiting for permissions.</h2>
+                
+                    <blockquote>
+                        If your device does not has cameras, no permissions will be asked.
+                    </blockquote>
+                
+                </ng-container>
+                
+                <ng-container *ngIf="hasPermission === false">
+                
+                    <h2>You denied the camera permission, we can't scan anything without it. 😪</h2>
+                
+                </ng-container>
+                
+                <ng-container *ngIf="hasDevices === undefined">
+                
+                    <h2>Looking for devices.</h2>
+                
+                </ng-container>
+                
+                <ng-container *ngIf="hasDevices === null">
+                
+                    <h2>Couldn't check for devices.</h2>
+                
+                    <blockquote>
+                        This may be caused by some security error.
+                    </blockquote>
+                
+                </ng-container>
+                
+                <ng-container *ngIf="hasDevices === false">
+                
+                    <h2>No devices were found.</h2>
+                
+                    <blockquote>
+                        I believe your device has no media devices attached to.
+                    </blockquote>
+                
+                </ng-container>
+                <!--<footer>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Property</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ stateToEmoji(hasDevices) }}</td>
+                                <td>Devices</td>
+                            </tr>
+                            <tr>
+                                <td>{{ stateToEmoji(hasPermission) }}</td>
+                                <td>Permissions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>Angular version: {{ ngVersion }}</p>
+                </footer>-->
+
+
+
+
+
+
+
+            </div>
+            <div class="col-md-4">
+                <h2>Bienvenido {{ NombreCliente }}</h2><br>
+                <h4>Hora de entrada {{ HoraEntrada }}</h4><br>
+                <h4>Fecha de entrada {{ FechaEntrada }}</h4>
+            </div>
+        </div>
+    </div>
+</main>
